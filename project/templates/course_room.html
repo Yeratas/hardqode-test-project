@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{%block content%}
+    <h2>Course page</h2>
+    <div>
+        <div>
+            Course ID: {{course.id}}
+        </div>
+        <div>
+            Course Name: {{course.name}}
+        </div>
+    </div>
+    <div>
+        Created by: {{course.creator}}
+    </div>
+    <div>
+        Description: {{course.description}}
+    </div>
+    <div>
+        Price: {{course.price}}$
+    </div>
+    <div><h3>Lessons:</h3></div>
+    {% if request.user == course.creator or request.user in participants %}
+        {%for lesson in lessons%}
+            <div>
+                <a href="{{lesson.link}}">{{lesson.lesson_title}}</a>
+            </div>
+        {%endfor%}
+    {% endif %}
+    <br>
+    <!--Add lesson  -->
+    {% if request.user == course.creator  %}
+    <div>
+        <a href="{% url 'add_lesson' course.name %}">Add Lesson</a>
+    </div>
+    {%endif%}
+
+    <h2>Participants</h2>
+    <ul>
+        {% for participant in participants %}
+            <li>{{ participant.username }}</li>
+        {% empty %}
+            <li>No participants have enrolled in this course yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Join course -->
+    {% if request.user.is_student and request.user not in participants %}
+    <div>
+        <form method="POST">
+            {%csrf_token%}
+            <input type="submit" value="Join Course">
+        </form>
+    </div>
+    {% endif %}
+
+{%endblock%}

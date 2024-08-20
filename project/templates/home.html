@@ -1,0 +1,18 @@
+{%extends 'main.html'%}
+
+{%block content%}
+    <h1>Home</h1>
+    {% if request.user.is_instructor %}
+    <div>
+        <a href="{% url 'add_course' %}">Add Course</a>
+    </div>
+    {%endif%}
+    <p>List of available courses:</p>
+    {%for course in courses%}
+    <div>
+        <a href="{% url 'course' course.name %}">{{course.name}}</a>
+    </div>
+    
+    {%endfor%}
+
+{%endblock%}

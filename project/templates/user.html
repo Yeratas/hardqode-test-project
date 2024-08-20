@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{%block content%}
+    <h2>User Profile</h2>
+    <div>Username:{{username}}</div>
+    <div>Email:{{email}}</div>
+    <div>User type: {{user_type}}</div>
+    {%if user.is_student %}
+    <div>Access granted to:
+        {%for course in course_access_list%}
+            {{course}}
+        {%endfor%}
+    </div>
+    {%endif%}
+    <div>Balance: {{balance}}</div>
+{%endblock%}
